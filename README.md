@@ -35,10 +35,12 @@ Task-Management/
 ## Requirements
 
 - Python 3.7 or higher
-- MongoDB 4.0 or higher
 - pip (Python package manager)
+- **MongoDB Atlas account** (cloud MongoDB) - No local MongoDB installation needed!
 
-## Installation
+## Quick Start (Cloud MongoDB)
+
+Since this application uses **MongoDB Atlas** (cloud database), setup is simple:
 
 ### 1. Clone the Repository
 
@@ -47,28 +49,7 @@ git clone <repository-url>
 cd Task-Management
 ```
 
-### 2. Install MongoDB
-
-#### Windows:
-1. Download MongoDB from [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community)
-2. Run the installer and follow the setup wizard
-3. MongoDB will be installed as a Windows service by default
-
-#### macOS:
-```bash
-brew install mongodb-community
-brew services start mongodb-community
-```
-
-#### Linux (Ubuntu/Debian):
-```bash
-sudo apt-get update
-sudo apt-get install -y mongodb
-sudo systemctl start mongodb
-sudo systemctl enable mongodb
-```
-
-### 3. Create Virtual Environment (Recommended)
+### 2. Create Virtual Environment (Recommended)
 
 ```bash
 # Windows
@@ -80,7 +61,7 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 4. Install Dependencies
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -89,33 +70,43 @@ pip install -r requirements.txt
 This will install:
 - `pymongo` - MongoDB driver for Python
 
-### 5. Configure Database Connection
+### 4. Run the Application
 
-Edit `config.py` to modify database connection settings if needed:
+```bash
+python main.py
+```
+
+**That's it!** The application is pre-configured to connect to MongoDB Atlas. The database connection string is already set in `config.py`, and the database will be automatically initialized on first run.
+
+## Optional: Configure Database Connection
+
+If you want to use a different MongoDB Atlas cluster, edit `config.py`:
 
 ```python
-MONGODB_CONNECTION_STRING = "mongodb://localhost:27017/"
+MONGODB_CONNECTION_STRING = "mongodb+srv://username:password@cluster.mongodb.net/"
 MONGODB_DATABASE_NAME = "task_management"
 ```
 
-Alternatively, set environment variables:
+Or set environment variables:
 ```bash
 # Windows
-set MONGODB_CONNECTION_STRING=mongodb://localhost:27017/
+set MONGODB_CONNECTION_STRING=mongodb+srv://username:password@cluster.mongodb.net/
 set MONGODB_DATABASE_NAME=task_management
 
 # macOS/Linux
-export MONGODB_CONNECTION_STRING=mongodb://localhost:27017/
+export MONGODB_CONNECTION_STRING=mongodb+srv://username:password@cluster.mongodb.net/
 export MONGODB_DATABASE_NAME=task_management
 ```
 
-### 6. Set Up Database
+## Optional: Manual Database Setup
 
-Run the database setup script to initialize the database:
+If you want to manually verify database setup:
 
 ```bash
 python setup_database.py
 ```
+
+**Note:** This is optional since the database is automatically initialized when you first run the application.
 
 This will create the necessary database and collection with indexes.
 
@@ -224,19 +215,12 @@ The application uses a background thread for concurrent operations:
 
 ## Testing the Application
 
-1. **Start MongoDB** (if not running as a service):
-   ```bash
-   # Windows
-   mongod
-
-   # macOS/Linux
-   sudo systemctl start mongodb
-   ```
-
-2. **Run the application**:
+1. **Run the application**:
    ```bash
    python main.py
    ```
+
+   The application will automatically connect to MongoDB Atlas cloud database.
 
 3. **Test operations**:
    - Add several tasks with different priorities and statuses
